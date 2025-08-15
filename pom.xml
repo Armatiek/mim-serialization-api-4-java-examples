@@ -7,14 +7,10 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>nl.armatiek.mim</groupId>
   <artifactId>mim-serialization-api-examples</artifactId>
-  <version>0.9.0</version>
+  <version>1.0.0</version>
   <name>MIM Serialization API examples</name>
   <inceptionYear>2025</inceptionYear>
-  <description>
-  The "MIM serialization API for Java" is a library for JVM based languages for reading and writing 
-  MIM (Metamodel voor Informatiemodellering) XML serializations following MIM versions 1.1.0, 1.1.1 
-  and 1.2. 
-  </description>
+  <description>Examples for how to use the MIM serialization API for Java</description>
   <url>https://github.com/Armatiek/mim-serialization-api-4-java-examples</url>
   
   <developers>
