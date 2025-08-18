@@ -2,15 +2,27 @@ package nl.geostandaarden.mim.examples;
 
 import java.io.InputStream;
 import java.util.List;
-import java.util.Optional;
 
 import jakarta.xml.bind.ValidationEvent;
 import jakarta.xml.bind.ValidationEventHandler;
 import nl.geostandaarden.mim.MimSerializationApi;
-import nl.geostandaarden.mim.error.*;
+import nl.geostandaarden.mim.error.MimSerializationApiException;
+import nl.geostandaarden.mim.error.MimSerializationApiLoadException;
+import nl.geostandaarden.mim.error.MimSerializationApiXhtmlException;
 import nl.geostandaarden.mim.interfaces.AttribuutsoortType;
-import nl.geostandaarden.mim_1_2.relatiesoort.*;
-import nl.geostandaarden.mim_1_2.relatiesoort.ext.*;
+import nl.geostandaarden.mim_1_2.relatiesoort.Attribuutsoort;
+import nl.geostandaarden.mim_1_2.relatiesoort.AttribuutsoortEx;
+import nl.geostandaarden.mim_1_2.relatiesoort.Codelijst;
+import nl.geostandaarden.mim_1_2.relatiesoort.Datatype;
+import nl.geostandaarden.mim_1_2.relatiesoort.Enumeratie;
+import nl.geostandaarden.mim_1_2.relatiesoort.GestructureerdDatatype;
+import nl.geostandaarden.mim_1_2.relatiesoort.Keuze;
+import nl.geostandaarden.mim_1_2.relatiesoort.Objecttype;
+import nl.geostandaarden.mim_1_2.relatiesoort.ObjecttypeEx;
+import nl.geostandaarden.mim_1_2.relatiesoort.PrimitiefDatatype;
+import nl.geostandaarden.mim_1_2.relatiesoort.Referentielijst;
+import nl.geostandaarden.mim_1_2.relatiesoort.XhtmlTextEx;
+import nl.geostandaarden.mim_1_2.relatiesoort.ext.Constructie;
 import nl.geostandaarden.mim_1_2.relatiesoort.ref.RefType;
 import nl.geostandaarden.mim_1_2.relatiesoort.ref.RefTypeEx;
 
@@ -51,7 +63,7 @@ public class LoadMimModel {
   /* Displays an XHTML field as string: */
   public void displayXhtmlContent() throws MimSerializationApiXhtmlException {
     /* Get an Objecttype by its name using a helper method: */
-    Objecttype objectType = mimModel.getObjecttypeByName("Bankrekening");
+    Objecttype objectType = getObjecttype("Bankrekening");
     
     /* Cast its definition field to the XhtmlTextEx interface: */
     XhtmlTextEx definitie = (XhtmlTextEx) objectType.getDefinitie();
@@ -62,7 +74,7 @@ public class LoadMimModel {
   
   public void followReferences() {
     /* Get an Objecttype by its name using a helper method: */
-    Objecttype objectType = mimModel.getObjecttypeByName("Leverancier");
+    Objecttype objectType = getObjecttype("Leverancier");
     
     /* Iterate the references to the supertypes: */
     objectType.getSupertypen().getGeneralisatieObjecttypen().forEach(
@@ -82,17 +94,17 @@ public class LoadMimModel {
   /* Displays the type of an Attribuutsoort: */
   public void displayAttribuutsoortType() {
     /* Get an Objecttype by its name using a helper method: */
-    Objecttype objectType = mimModel.getObjecttypeByName("Leverancier");
+    Objecttype objectType = getObjecttype("Leverancier");
     
     /* Get its attribuut with name "kvk nummer": */
-    Optional<Attribuutsoort> attr = ((ObjecttypeEx) objectType).getAttribuutsoort("kvk nummer");
-    if (attr.isEmpty()) {
+    Attribuutsoort attr = ((ObjecttypeEx) objectType).getAttribuutsoort("kvk nummer");
+    if (attr == null) {
       System.out.println("Attribuut \"kvk nummer\" of Objecttype \"Leverancier\" not found");
       return;
     }
     
     /* Cast the Attribuutsoort to an AttribuutsoortEx: */
-    AttribuutsoortEx attrEx = (AttribuutsoortEx) attr.get();
+    AttribuutsoortEx attrEx = (AttribuutsoortEx) attr;
 
     AttribuutsoortType type = attrEx.getAttribuutsoortType();    
     if (type instanceof Datatype) {
@@ -112,6 +124,14 @@ public class LoadMimModel {
     } else if (type instanceof Constructie) {
       System.out.println("Constructie: " + ((Constructie) type).getId());
     }
+  }
+  
+  private Objecttype getObjecttype(String name) {
+    List<Object> elements = mimModel.getModelElementsByName(name);
+    if (elements.isEmpty()) {
+      return null;
+    }
+    return (Objecttype) elements.get(0);
   }
   
   public static void main(String[] args) throws Exception {

@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>nl.armatiek.mim</groupId>
   <artifactId>mim-serialization-api-examples</artifactId>
-  <version>1.0.0</version>
+  <version>0.9.1</version>
   <name>MIM Serialization API examples</name>
   <inceptionYear>2025</inceptionYear>
   <description>Examples for how to use the MIM serialization API for Java</description>
@@ -33,8 +33,8 @@
   </licenses>
   
   <properties>
-    <maven.compiler.target>19</maven.compiler.target>
-    <maven.compiler.source>19</maven.compiler.source>
+    <maven.compiler.target>11</maven.compiler.target>
+    <maven.compiler.source>11</maven.compiler.source>
     <project.build.sourceEncoding>${file.encoding}</project.build.sourceEncoding>
   </properties>
 
@@ -42,7 +42,7 @@
     <dependency>
       <groupId>nl.armatiek.mim</groupId>
       <artifactId>mim-serialization-api</artifactId>
-      <version>0.9.0</version>
+      <version>0.9.1</version>
     </dependency>
   </dependencies>
   
